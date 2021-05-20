@@ -76,7 +76,8 @@ for center in centers:
         result = str(nb_availabilities) + " appointments available at " + place_name + " - " + place_address
         print(result)
         
-        if nb_availabilities > 0 and DISABLE_EMAIL != "true":
+        # if nb_availabilities > 0 and DISABLE_EMAIL != "true":
+        if True:
             context = ssl.create_default_context()
             with smtplib.SMTP_SSL("smtp.gmail.com", 465, context = context) as server:
                 server.login(SENDER_EMAIL, SENDER_PASSWORD)
