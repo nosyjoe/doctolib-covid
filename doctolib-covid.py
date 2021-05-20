@@ -65,7 +65,7 @@ for center in centers:
         response = requests.get(
                 "https://www.doctolib.de/availabilities.json",
                 params = params,
-                headers = {'user-agent': ''}
+                headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
         )
         response.raise_for_status()
         # print(response)
@@ -75,8 +75,7 @@ for center in centers:
         result = str(nb_availabilities) + " appointments available at " + place_name + " - " + place_address
         print(result)
         
-        # if nb_availabilities > 0 and DISABLE_EMAIL != "true":
-        if True:
+        if nb_availabilities > 0 and DISABLE_EMAIL != "true":
             context = ssl.create_default_context()
             with smtplib.SMTP_SSL("smtp.gmail.com", 465, context = context) as server:
                 server.login(SENDER_EMAIL, SENDER_PASSWORD)
