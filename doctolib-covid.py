@@ -65,8 +65,7 @@ for center in centers:
         response = requests.get(
                 "https://www.doctolib.de/availabilities.json",
                 params = params,
-                headers = {'user-agent': ''},
-                verify="/Users/philipp/Desktop/charles-ssl-proxying-certificate.pem"
+                headers = {'user-agent': ''}
         )
         response.raise_for_status()
         # print(response)
