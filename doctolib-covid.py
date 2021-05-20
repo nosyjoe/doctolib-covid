@@ -14,12 +14,15 @@ centers = [center.strip() for center in centers
            if not center.startswith("#")] 
 
 for center in centers:
+
+    # print(f"https://www.doctolib.de/booking/{center}.json")
+    data = requests.get(f"https://www.doctolib.de/booking/{center}.json").json()["data"]
     
-    data = requests.get(f"https://www.doctolib.fr/booking/{center}.json").json()["data"]
+
+    # print(data["visit_motives"])
     
     visit_motives = [visit_motive for visit_motive in data["visit_motives"]
-                     if visit_motive["name"].startswith("1re injection") and 
-                     "AstraZeneca" not in visit_motive["name"]]
+                     if visit_motive["name"].startswith("Erstimpfung Covid")]
     if not visit_motives:
         continue
     
@@ -48,19 +51,26 @@ for center in centers:
         # print(practice_ids)
         # print(agenda_ids)
         
+        params = {
+                "start_date": start_date,
+                "visit_motive_ids": visit_motive_ids,
+                "agenda_ids": agenda_ids,
+                "practice_ids": practice_ids,
+                "insurance_sector": "public",
+                "destroy_temporary": "true",
+                "limit":2
+        }
+        # print(params)
+        
         response = requests.get(
-                "https://www.doctolib.fr/availabilities.json",
-                params = {
-                        "start_date": start_date,
-                        "visit_motive_ids": visit_motive_ids,
-                        "agenda_ids": agenda_ids,
-                        "practice_ids": practice_ids,
-                        "insurance_sector": "public",
-                        "destroy_temporary": "true",
-                        "limit":2
-                },
+                "https://www.doctolib.de/availabilities.json",
+                params = params,
+                headers = {'user-agent': ''},
+                verify="/Users/philipp/Desktop/charles-ssl-proxying-certificate.pem"
         )
         response.raise_for_status()
+        # print(response)
+        
         nb_availabilities = response.json()["total"]
         
         result = str(nb_availabilities) + " appointments available at " + place_name + " - " + place_address
