@@ -16,7 +16,8 @@ centers = [center.strip() for center in centers
 for center in centers:
 
     # print(f"https://www.doctolib.de/booking/{center}.json")
-    data = requests.get(f"https://www.doctolib.de/booking/{center}.json").json()["data"]
+    uri = "https://www.doctolib.de/booking/%s.json" % center
+    data = requests.get(uri).json()["data"]
     
 
     # print(data["visit_motives"])
